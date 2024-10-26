@@ -7,26 +7,19 @@ def mondel():
     a = 2
     x_pos, y_pos = -2, -2
     width, height = 1024, 1024
-
     def mandelbrot(x1, y1):
-        x, y = 0, 0
-        iter = 0
+        x = y = iter= 0
         while x * x + y * y < 4 and iter < max_iterations:
             temp = x * x - y * y + x1
             y = 2.0 * x * y + y1
             x = temp
             iter += 1
         return max_iterations - iter
-
-    def wbgradColor(stop, value, rev):
-        if stop == 1:
-            return 0
+    def wbgradColor(stop, value):
         middle = stop / 2
         if value > middle:
-            return wbgradColor(stop - middle, value - middle, not rev)
+            return wbgradColor(stop - middle, value - middle)
         k = 256 / middle
-        if rev:
-            return round((middle - value) * k)
         return round(value * k)
 
     img = Image.new("RGB", (width, height), "white")
@@ -36,7 +29,7 @@ def mondel():
             x0 = (px / width) * 2 * a + x_pos
             y0 = (py / height) * 2 * a + y_pos
             iter_count = mandelbrot(x0, y0)
-            gray_val = wbgradColor(max_iterations, iter_count, True)
+            gray_val = wbgradColor(max_iterations, iter_count)
             pixels[px, py] = (gray_val, gray_val, gray_val)
     image = img.convert("P")
     image.putpalette(palette)
@@ -45,8 +38,8 @@ def mondel():
 
 
 def budda():
-    width, height = 800, 800
-    max_iter = 1000
+    width, height = 1024, 1024
+    max_iter = 1024
     zoom = 250
     budda_brot = np.zeros((height, width))
 
@@ -82,7 +75,7 @@ def budda():
     image = Image.fromarray(normalized_brot)
     image = image.convert("P")
     image.putpalette(palette)
-    image.save("budda_brot_inferno.png")
+    image.save("buddabrot.png")
     image.show()
 
 
